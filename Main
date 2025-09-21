@@ -1,0 +1,51 @@
+
+    --📛 CoEs Nametag System by CoEs 💚 -- 
+   -- Shows player name as: @Username (DisplayName) -- 
+    --Optionally shows Group Role if GroupId is set--
+
+
+local Players = game:GetService("Players")
+local GroupId = nil -- 🔧 Set to your group ID, e.g. 1234567. If nil, group role won't be shown.
+
+local function createNametag(player)
+    local username = player.Name
+    local displayName = player.DisplayName
+    local roleText = ""
+
+    if GroupId then
+        local role = player:GetRoleInGroup(GroupId)
+        if role and role ~= "Guest" then
+            roleText = " [" .. role .. "]"
+        end
+    end
+
+    local fullText = "@" .. username .. " (" .. displayName .. ")" .. roleText
+
+    -- 🧱 Create BillboardGui
+    local tag = Instance.new("BillboardGui")
+    tag.Name = "ColinNametag"
+    tag.Size = UDim2.new(0, 200, 0, 50)
+    tag.StudsOffset = Vector3.new(0, 2, 0)
+    tag.Adornee = player.Character:FindFirstChild("Head")
+    tag.AlwaysOnTop = true
+    tag.Parent = player.Character
+
+    -- 🏷️ Create TextLabel
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.BackgroundTransparency = 1
+    label.TextScaled = true
+    label.Font = Enum.Font.SourceSansBold
+    label.TextColor3 = Color3.new(1, 1, 1)
+    label.TextStrokeTransparency = 0.5
+    label.Text = fullText
+    label.Parent = tag
+end
+
+-- 🔄 Connect on spawn
+Players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function()
+        task.wait(1) -- Wait for character to load
+        createNametag(player)
+    end)
+end)
