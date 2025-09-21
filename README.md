@@ -38,13 +38,13 @@ When `GroupId` is `nil`, the nametag will only show `@Username (DisplayName)` wi
 If GroupId is set:
 
 ```
-@CoEsDev  [Admin]
+@(Username)  [Group Role]
 ```
 
 If GroupId is nil:
 
 ```
-@CoEs (CoEs Group)
+@(Username)
 ```
 
 ---
